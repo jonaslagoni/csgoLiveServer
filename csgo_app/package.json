@@ -1,0 +1,13 @@
+{
+  "name": "csgoLiveServer",
+  "version": "0.0.1",
+  "description": "Plugin for CSGO server which reflects the game in the web-browser",
+  "dependencies": {
+    "express": "^4.15.2",
+    "mysql": "^2.13.0",
+    "socket.io": "^1.7.4"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}

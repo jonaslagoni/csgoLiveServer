@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Test map</title>
+    <style>
+    #map{
+      position:absolute;
+      top:0;
+      left:0;
+      width:1024px;
+      height:1024px;
+    }
+    .smoke{
+      border-radius: 50%;
+      behavior: url(PIE.htc);
+      background:grey;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="js/map.js"></script>
+    <script>
+      var map;
+      function initMap(){
+        map = new Map("map");
+        map.load();
+      };
+      initMap();
+
+      $(function () {
+        var socket = io();
+        socket.on('newKill', function(attacker_id, attacker_name, victim_id, victim_name, headshot, weapon){
+          $("#dot".concat(victim_id)).css('background-color', 'grey');
+          $("#dot".concat(victim_id)).css('z-index', '-99');
+        });
+        socket.on('position', function(pos_x, pos_y, pos_z, client_id){
+          map.drawPlayer(pos_x, pos_y, pos_z, client_id);
+        });
+        socket.on('positions', function(data){
+          map.drawPlayers(data);
+        });
+        socket.on('new_round', function(){
+          map.resetPlayers();
+        });
+        socket.on('expired_nade', function(entity_id){
+          map.removeNade(entity_id);
+        });
+        socket.on('detonated_smoke', function(entity_id, entity_pos_x, entity_pos_y, entity_pos_z, client_pos_x, client_pos_y, client_pos_z){
+          map.drawSmoke(entity_id, entity_pos_x, entity_pos_y, entity_pos_z, client_pos_x, client_pos_y, client_pos_z);
+        });
+        socket.on('team_switch', function(new_team_side, old_team_side, client_id, client_name){
+          map.team_switch(new_team_side, old_team_side, client_id, client_name);
+        });
+        socket.on('team_join', function(new_team_side, old_team_side, client_id, client_name){
+          map.team_join(new_team_side, old_team_side, client_id, client_name);
+        });
+      });
+    </script>
+  </body>
+</html>
