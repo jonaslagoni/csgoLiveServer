@@ -10,7 +10,7 @@ Gif showing the basic smoke.
 ![](https://i.gyazo.com/cc8593c17a535e79b03685ca0bfb6bf9.gif)
 
 ## How to use
-Read the instructions file for instructions on how to use and develop on this plugin.
+Read the wiki for instructions on how to use and develop on this plugin. If there is any questions feel free to contact me.
 
 ## Improvements to be made
 * Using Postgres SQL and triggers in nodejs. 
